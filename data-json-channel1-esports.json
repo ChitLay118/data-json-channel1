@@ -1,0 +1,102 @@
+[
+  {
+    "title": "မဟာ/PyonePlay Sports HD",
+    "thumb": "https://via.placeholder.com/300x450?text=Sports+HD",
+    "src": "https://cdn-live-pyone.secureswiftcontent.com/han/pyone/sport/HLSoutput/manifest.m3u8"
+  },
+  {
+    "title": "မဟာအီးစပွတ် HD",
+    "thumb": "https://via.placeholder.com/300x450?text=Esports+HD",
+    "src": "https://tv.mahar.live/esports/mahar.stream/esports/mahar2/chunks.m3u8"
+  },
+  {
+    "title": "beIN Sports USA",
+    "thumb": "https://via.placeholder.com/300x450?text=beIN+Sports",
+    "src": "https://bein-esp-xumo.amagi.tv/playlistR1080p.m3u8"
+  },
+  {
+    "title": "CBS Sports HQ",
+    "thumb": "https://via.placeholder.com/300x450?text=CBS+Sports",
+    "src": "https://cfd-v4-service-channel-stitcher-use1-1.prd.pluto.tv/stitch/hls/channel/5e9f2c05172a0f0007db4786/master.m3u8"
+  },
+  {
+    "title": "CBS Golazo",
+    "thumb": "https://via.placeholder.com/300x450?text=CBS+Golazo",
+    "src": "https://dai.google.com/linear/hls/event/GxrCGmwST0ixsrc_QgB6qw/master.m3u8"
+  },
+  {
+    "title": "A Spor Turkey",
+    "thumb": "https://via.placeholder.com/300x450?text=A+Spor",
+    "src": "https://trkvz-live.daioncdn.net/aspor/aspor.m3u8"
+  },
+  {
+    "title": "Abu Dhabi Sports 1",
+    "thumb": "https://via.placeholder.com/300x450?text=AD+Sports+1",
+    "src": "https://admn-live-cdn-lb.starzplayarabia.com/out/v1/admn_tv_enc/abudhabi_sports_1/abudhabi_sports_1_hls_nd/index.m3u8"
+  },
+  {
+    "title": "Dubai Sports 2",
+    "thumb": "https://via.placeholder.com/300x450?text=Dubai+Sports",
+    "src": "https://dmitwlvvll.cdn.mgmlcdn.com/dubaisportshd/smil:dubaisportshd.smil/chunklist.m3u8"
+  },
+  {
+    "title": "Barca TV",
+    "thumb": "https://via.placeholder.com/300x450?text=Barca+TV",
+    "src": "https://live20.bozztv.com/dvrfl06/astv/astv-barca/index.m3u8"
+  },
+  {
+    "title": "ESPN Deportes",
+    "thumb": "https://via.placeholder.com/300x450?text=ESPN+Deportes",
+    "src": "https://e3.thetvapp.to/hls/espn-deportes/index.m3u8"
+  },
+  {
+    "title": "CCTV-5 Sports",
+    "thumb": "https://via.placeholder.com/300x450?text=CCTV-5",
+    "src": "http://123.175.209.52:9003/hls/5/index.m3u8"
+  },
+  {
+    "title": "ESPNews",
+    "thumb": "https://via.placeholder.com/300x450?text=ESPNews",
+    "src": "https://fl1.moveonjoy.com/ESPN_NEWS/index.m3u8"
+  },
+  {
+    "title": "ESPN U",
+    "thumb": "https://via.placeholder.com/300x450?text=ESPN+U",
+    "src": "https://fl1.moveonjoy.com/ESPN_U/index.m3u8"
+  },
+  {
+    "title": "Bellator MMA",
+    "thumb": "https://via.placeholder.com/300x450?text=Bellator+MMA",
+    "src": "https://cfd-v4-service-channel-stitcher-use1-1.prd.pluto.tv/stitch/hls/channel/5ebc8688f3697d00072f7cf8/master.m3u8"
+  },
+  {
+    "title": "DD Sports India",
+    "thumb": "https://via.placeholder.com/300x450?text=DD+Sports",
+    "src": "https://cdn-6.pishow.tv/live/13/master.m3u8"
+  },
+  {
+    "title": "EDGESport (Esports)",
+    "thumb": "https://via.placeholder.com/300x450?text=EDGESport",
+    "src": "https://edgesports-sportstribal.amagi.tv/playlist.m3u8"
+  },
+  {
+    "title": "eGG Network (Esports)",
+    "thumb": "https://via.placeholder.com/300x450?text=eGG+Network",
+    "src": "http://210.210.155.37/uq2663/h/h22/index.m3u8"
+  },
+  {
+    "title": "CCTV-16 Sports (Esports)",
+    "thumb": "https://via.placeholder.com/300x450?text=CCTV-16",
+    "src": "http://123.175.209.52:9003/hls/17/index.m3u8"
+  },
+  {
+    "title": "Esport3",
+    "thumb": "https://via.placeholder.com/300x450?text=Esport3",
+    "src": "https://directes-tv-int.3catdirectes.cat/live-content/esport3-hls/master.m3u8"
+  },
+  {
+    "title": "Blast Sports",
+    "thumb": "https://via.placeholder.com/300x450?text=Blast+Sports",
+    "src": "https://amg19223-amg19223c1-amgplt0351.playout.now3.amagi.tv/playlist/amg19223-amg19223c1-amgplt0351/playlist.m3u8"
+  }
+]
