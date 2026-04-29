@@ -1,14 +1,14 @@
 name: Update News
 on:
   schedule:
-    - cron: '*/30 * * * *' # မိနစ် ၃၀ တစ်ခါ run မည်
-  workflow_dispatch: # လက်နဲ့နှိပ်ပြီး run လို့ရအောင်လုပ်ခြင်း
+    - cron: '*/30 * * * *' 
+  workflow_dispatch:
 
 jobs:
   build:
     runs-on: ubuntu-latest
     permissions:
-      contents: write # Repository ထဲကို news.json ပြန်သိမ်းဖို့ ခွင့်ပြုချက်
+      contents: write # ရေးခွင့်ပေးရန်
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v4
@@ -17,7 +17,7 @@ jobs:
         uses: actions/setup-python@v5
         with:
           python-version: '3.9'
-          cache: 'pip' # နောက်တစ်ခါ run ရင် မြန်အောင် cache လုပ်ခြင်း
+          # cache: 'pip' ကို ဖြုတ်လိုက်ပြီ ဖြစ်၍ requirements.txt မလိုတော့ပါ
 
       - name: Install dependencies
         run: |
@@ -31,5 +31,5 @@ jobs:
           git config --global user.name 'NewsBot'
           git config --global user.email 'bot@news.com'
           git add news.json
-          # အပြောင်းအလဲရှိမှသာ commit လုပ်ရန်
+          # အပြောင်းအလဲရှိမှသာ commit လုပ်ပြီး push မည်
           git diff --quiet && git diff --staged --quiet || (git commit -m "Auto Update News: $(date)" && git push)
