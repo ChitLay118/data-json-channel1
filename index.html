@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="my">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Channel1 - Premier News Portal</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Pyidaungsu:wght@400;700&display=swap');
+        
+        body {
+            background-color: #0b0b0b;
+            color: #ffffff;
+            font-family: 'Pyidaungsu', sans-serif;
+            margin: 0;
+            padding: 0;
+            overflow-x: hidden;
+        }
+
+        .active-section {
+            border-bottom: 3px solid #ef4444;
+            color: #ef4444 !important;
+        }
+
+        .news-card {
+            display: flex;
+            background: #141414;
+            border: 1px solid #222;
+            border-radius: 14px;
+            padding: 10px;
+            margin-bottom: 10px;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+
+        .news-card:active { transform: scale(0.97); background: #1a1a1a; }
+
+        .news-img {
+            width: 90px;
+            height: 65px;
+            border-radius: 8px;
+            object-fit: cover;
+            flex-shrink: 0;
+            background: #222;
+        }
+
+        .cat-btn {
+            background: #1a1a1a;
+            border: 1px solid #333;
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-size: 10px;
+            white-space: nowrap;
+            color: #aaa;
+            transition: all 0.3s;
+        }
+
+        .active-cat {
+            background: #ef4444;
+            color: white;
+            border-color: #ef4444;
+        }
+
+        /* Reader Overlay */
+        #news-reader {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: #fff; z-index: 1000; display: none; flex-direction: column;
+            animation: slideUp 0.3s ease-out;
+        }
+
+        @keyframes slideUp { from { transform: translateY(100%); } to { transform: translateY(0); } }
+
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+    </style>
+</head>
+<body>
+
+    <!-- Header Section -->
+    <header class="sticky top-0 bg-[#0b0b0b]/95 backdrop-blur-lg z-50 border-b border-zinc-900">
+        <div class="flex items-center justify-between p-4">
+            <h1 class="text-lg font-black text-red-600 tracking-tighter">CHANNEL1 <span class="text-white font-light">NEWS</span></h1>
+            <button onclick="refreshCurrent()" class="text-zinc-500"><i class="fas fa-sync-alt"></i></button>
+        </div>
+
+        <!-- Main Tabs -->
+        <div class="flex text-center border-b border-zinc-900">
+            <button onclick="switchSection('local')" id="tab-local" class="flex-1 py-3 text-[11px] font-bold active-section uppercase tracking-widest text-zinc-400">ပြည်တွင်းသတင်း</button>
+            <button onclick="switchSection('intl')" id="tab-intl" class="flex-1 py-3 text-[11px] font-bold uppercase tracking-widest text-zinc-400">နိုင်ငံတကာသတင်း</button>
+        </div>
+
+        <!-- Sub Categories -->
+        <div id="sub-cats" class="flex space-x-2 overflow-x-auto no-scrollbar p-3">
+            <!-- Dynamic Categories based on section -->
+        </div>
+    </header>
+
+    <!-- News List -->
+    <main class="p-3" id="news-list">
+        <div class="flex flex-col items-center justify-center py-24 opacity-30">
+            <i class="fas fa-newspaper text-5xl mb-4"></i>
+            <p class="text-xs">သတင်းဌာနတစ်ခု ရွေးချယ်ပါ</p>
+        </div>
+    </main>
+
+    <!-- Reader Overlay -->
+    <div id="news-reader">
+        <div class="p-3 bg-zinc-100 border-b flex items-center justify-between">
+            <button onclick="closeReader()" class="w-10 h-10 flex items-center justify-center text-zinc-900"><i class="fas fa-times"></i></button>
+            <span id="reader-source" class="text-[10px] font-bold text-zinc-500 uppercase">Reader</span>
+            <button onclick="window.open(currentUrl, '_blank')" class="text-blue-600 text-[10px] font-bold px-2">BROWSER</button>
+        </div>
+        <iframe id="reader-frame" class="w-full flex-grow border-none"></iframe>
+    </div>
+
+<script>
+    const SOURCES = {
+        local: [
+            { name: "Irrawaddy", url: "https://burma.irrawaddy.com/feed" },
+            { name: "Myanmar Now", url: "https://myanmar-now.org/mm/feed/" },
+            { name: "Frontier", url: "https://www.frontiermyanmar.net/en/feed/" },
+            { name: "Mizzima", url: "https://mizzima.com/rss.xml" },
+            { name: "VOA Burmese", url: "https://www.voaburmese.com/rss" }
+        ],
+        intl: [
+            { name: "BBC Asia", url: "https://feeds.bbci.co.uk/news/world/asia/rss.xml" },
+            { name: "VOA World", url: "https://www.voanews.com/rss/world" },
+            { name: "NHK Asia", url: "https://www3.nhk.or.jp/rss/news/cat5.xml" },
+            { name: "CNA", url: "https://www.channelnewsasia.com/api/v1/rss-outbound" },
+            { name: "CNN World", url: "http://rss.cnn.com/rss/edition_world.rss" },
+            { name: "Reuters", url: "https://feeds.reuters.com/Reuters/worldNews" },
+            { name: "Al Jazeera", url: "https://www.aljazeera.com/xml/rss/all.xml" }
+        ]
+    };
+
+    let currentSection = 'local';
+    let currentSourceUrl = '';
+    let currentUrl = '';
+
+    function switchSection(sec) {
+        currentSection = sec;
+        document.getElementById('tab-local').classList.toggle('active-section', sec === 'local');
+        document.getElementById('tab-intl').classList.toggle('active-section', sec === 'intl');
+        
+        renderSubCats();
+        loadFeed(SOURCES[sec][0].url, SOURCES[sec][0].name);
+    }
+
+    function renderSubCats() {
+        const container = document.getElementById('sub-cats');
+        container.innerHTML = SOURCES[currentSection].map(s => `
+            <button onclick="loadFeed('${s.url}', '${s.name}')" class="cat-btn" id="btn-${s.name.replace(/\s+/g, '')}">
+                ${s.name}
+            </button>
+        `).join('');
+    }
+
+    async function loadFeed(url, name) {
+        currentSourceUrl = url;
+        const list = document.getElementById('news-list');
+        list.innerHTML = `<div class="flex flex-col items-center justify-center py-20 opacity-50"><i class="fas fa-circle-notch fa-spin text-2xl mb-4 text-red-600"></i><p class="text-xs">Loading ${name}...</p></div>`;
+        
+        // Update Buttons
+        document.querySelectorAll('.cat-btn').forEach(b => b.classList.remove('active-cat'));
+        const activeBtn = document.getElementById('btn-' + name.replace(/\s+/g, ''));
+        if(activeBtn) activeBtn.classList.add('active-cat');
+
+        try {
+            const res = await fetch(`https://api.rss2json.com/v1/api.json?rss_url=${encodeURIComponent(url)}&t=${Date.now()}`);
+            const data = await res.json();
+            
+            if(data.status === 'ok') {
+                list.innerHTML = data.items.map(item => {
+                    let thumb = item.thumbnail || (item.content ? item.content.match(/src="([^"]+)"/)?.[1] : null);
+                    if(!thumb) thumb = `https://ui-avatars.com/api/?name=${name}&background=1a1a1a&color=fff&size=100`;
+                    
+                    return `
+                        <div class="news-card" onclick="openReader('${item.link}', '${name}')">
+                            <img src="${thumb}" class="news-img" onerror="this.style.display='none'">
+                            <div class="ml-3 flex-grow overflow-hidden">
+                                <h3 class="text-[11px] font-bold line-clamp-2 leading-snug text-zinc-100">${item.title}</h3>
+                                <div class="flex items-center justify-between mt-2 text-[8px] text-zinc-500 uppercase font-bold tracking-wider">
+                                    <span>${name}</span>
+                                    <span>${new Date(item.pubDate).toLocaleDateString()}</span>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                }).join('');
+            }
+        } catch(e) {
+            list.innerHTML = `<div class="text-center py-20 text-zinc-600 text-xs">သတင်းများ ရယူ၍မရပါ။</div>`;
+        }
+    }
+
+    function openReader(url, name) {
+        currentUrl = url;
+        document.getElementById('reader-source').innerText = name;
+        document.getElementById('reader-frame').src = url;
+        document.getElementById('news-reader').style.display = 'flex';
+    }
+
+    function closeReader() {
+        document.getElementById('news-reader').style.display = 'none';
+        document.getElementById('reader-frame').src = '';
+    }
+
+    function refreshCurrent() {
+        if(currentSourceUrl) {
+            const source = SOURCES[currentSection].find(s => s.url === currentSourceUrl);
+            loadFeed(currentSourceUrl, source ? source.name : '');
+        }
+    }
+
+    window.onload = () => switchSection('local');
+</script>
+</body>
+</html>
