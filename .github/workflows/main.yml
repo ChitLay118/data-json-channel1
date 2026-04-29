@@ -1,0 +1,26 @@
+name: Update News
+on:
+  schedule:
+    - cron: '*/30 * * * *' # မိနစ် ၃၀ တစ်ခါ run မည်
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: '3.9'
+      - name: Install dependencies
+        run: pip install feedparser beautifulsoup4 requests
+      - name: Fetch news data
+        run: python fetch_news.py
+      - name: Commit and Push
+        run: |
+          git config --global user.name 'NewsBot'
+          git config --global user.email 'bot@news.com'
+          git add news.json
+          git commit -m "Auto Update News: $(date)" || exit 0
+          git push
