@@ -125,7 +125,7 @@
         "thumb": "",
         "date": "ယနေ့",
         "source": "BBC Burmese",
-        "content": "<p>သတင်းအကြောင်းအရာ မတွေ့ရှိပါ။</p>"
+        "content": "<p>Error loading content: HTTPSConnectionPool(host='www.bbc.com', port=443): Read timed out. (read timeout=15)</p>"
     },
     {
         "title": "ထိုင်း-မြန်မာနယ်စပ်က အွန်လိုင်းငွေလိမ်ဂိုဏ်းတွေရဲ့ ဗဟိုချက်အပြောင်းအလဲ",
